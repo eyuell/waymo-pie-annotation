@@ -20,19 +20,16 @@ Inspiration from:
 
 import numpy as np
 import tensorflow as tf
-import itertools
-import math
 import os
-import json
 from pyproj import Proj, transform
 
 tf.compat.v1.enable_eager_execution()
 from waymo_open_dataset import dataset_pb2 as open_dataset
-import util_adapter
 
 pre_pose = []
 pre_stamp = 0
 pre_velo = []
+
 
 def get_pose_elements(img_pose):
     poses = []
@@ -43,6 +40,7 @@ def get_pose_elements(img_pose):
             poses.append(float(element[:len(element) -1]))
 
     return poses
+
 
 # Reclaimer: this data is only for intention and trajectory 
 # prediction which does not need location information
@@ -104,6 +102,7 @@ def get_OBD(pose_els, cur_tim, loc):
 
     return [ velo_mag_kmh, accn, heading_angle, lat_y, long_x, roll, pitch, yaw ]
 
+
 def generate_obd_line(frame_num, obd_contents):
 
     fr_num = '{0:05}'.format(frame_num)
@@ -118,14 +117,17 @@ def generate_obd_line(frame_num, obd_contents):
     return x    #<frame id="0" GPS_speed="23.27" OBD_speed="21.63" accX="-0.03" accY="0.94" accZ="0.16"
                 # heading_angle="342.99" latitude="43.6556265" longitude="-79.402457" roll="6.2" pitch="0.257" yaw="6.28" />
 
+
 def stream_out(output_file, content):
     with open(output_file, 'wt') as fid:
         fid.write("%s" % (content))
         fid.close()
 
+
 def refresh_path(n_path):
     if not os.path.exists(n_path):
         os.makedirs(n_path)
+
 
 def extract_OBD(i, filename, vid_name, annt_dir, vv):
     obd_frames = []

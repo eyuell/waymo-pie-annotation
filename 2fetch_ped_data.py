@@ -23,12 +23,9 @@ Read labels and images to return:
 """
 
 # Check on the availability of a font for pedestrian ID for frames
-
-
-from os.path import join, abspath, isfile, isdir, exists
+from os.path import join, isdir, exists
 from os import listdir, makedirs
-import json
-from PIL import Image, ImageDraw, ImageFont, ImageOps
+from PIL import Image, ImageDraw, ImageFont
 from collections import OrderedDict
 from util_annt import get_header
 import time
@@ -148,6 +145,7 @@ def get_sorted_labels(label_names):
             return None
     """
 
+
 def get_vid_names():
     if isdir(labels_dir):
         fold_names = listdir(labels_dir)
@@ -192,6 +190,7 @@ def handel_annot(compiled_annt, vid, vid_name, n_frames=198):
     str_f = str_f.replace("'", '')
     stream_out(annt_file, str_f)
 
+
 def generate_ped_data(cont, frame_num, frame_key):
     global compiled_attr, attr_control
 
@@ -233,6 +232,7 @@ def generate_ped_data(cont, frame_num, frame_key):
 
     return peds
 
+
 if __name__=="__main__":
     start = time.time()
     vid_list = get_vid_names()
@@ -241,7 +241,7 @@ if __name__=="__main__":
         compiled_annt.clear()
         print("Working on segment", nn, "of", len(vid_list),"\r")
         nn += 1
-        label_names = []
+
         cont = []
         peds = {}
         lab_path = labels_dir + vid + '/'
@@ -252,7 +252,7 @@ if __name__=="__main__":
         if(n_frames):
 
             sorted_labels = get_sorted_labels(label_names)
-
+            vid_name = ''
             frame_code = -1
             for frame_num, labels in sorted_labels.items():
                 #compiled_obd.append(generate_obd_line(frame_num))

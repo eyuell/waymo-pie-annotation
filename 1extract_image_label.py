@@ -7,10 +7,7 @@ Taken and Customized from:
 As step 1
 Extract images and labels from segment
 """
-import os
 import time
-import glob
-import sys
 import threading
 from datetime import timedelta
 import util_image_label as WODKit

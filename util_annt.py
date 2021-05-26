@@ -14,6 +14,7 @@ See the License for the specific language governing permissions and
 limitations under the License.
 """
 
+
 def get_header(vid_name, vid_num, fr_size):
     x = str()
     x = x + '<?xml version="1.0" encoding="UTF-8"?> <annotations> <version>1.1</version> <meta> <task>'

@@ -4,11 +4,7 @@ Taken and Customized from:
 """
 import os
 import cv2
-import glob
-import pickle
 import threading
-import numpy as np
-from urllib.parse import urlparse
 import sys
 import shutil
 import tensorflow.compat.v1 as tf
@@ -16,12 +12,7 @@ tf.enable_eager_execution()
 
 from google.protobuf.json_format import MessageToDict
 
-from waymo_open_dataset.utils import range_image_utils
-from waymo_open_dataset.utils import transform_utils
-from waymo_open_dataset.utils import  frame_utils
 from waymo_open_dataset import dataset_pb2 as open_dataset
-
-from pprint import pprint
 
 class ToolKit:
 
@@ -93,8 +84,6 @@ class ToolKit:
             if index == 0 and data.name == 1: #Customized (0 & 1) for FRONT
                 decodedImage = tf.io.decode_jpeg(data.image, channels=3, dct_method='INTEGER_ACCURATE')
                 decodedImage = cv2.cvtColor(decodedImage.numpy(), cv2.COLOR_RGB2BGR)
-                #cv2.imwrite("{}/{}_{}.png".format(self.camera_images_dir, ndx, self.camera_list[data.name]), decodedImage)
-                #cv2.imwrite("{}/{}_{}.png".format(self.camera_images_dir, self.seg, ndx), decodedImage)
                 file_name = "%05.f.png" % ndx
                 cv2.imwrite("{}/{}".format(self.img_vid_path, file_name), decodedImage)
 
@@ -112,8 +101,7 @@ class ToolKit:
                         y = label["box"]["centerY"]
                         width = label["box"]["width"]
                         length = label["box"]["length"]
-                        #x = x - 0.5 * length
-                        #y = y - 0.5 * width
+
                         obj_type = label["type"]
                         obj_id = label["id"]
                         label_file.write("{},{},{},{},{},{}\n".format(obj_type, x, y, length, width, obj_id))

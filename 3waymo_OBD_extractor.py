@@ -23,8 +23,6 @@ As OBD step
 """
 
 import os
-import argparse
-import sys
 import time
 from datetime import timedelta
 
@@ -35,6 +33,7 @@ main_path = '/home/eyuell/Desktop/ForD/WAYMO/'
 source_folder = main_path + 'input/segment/'
 dest_folder = main_path + 'output/'
 annt_dir = dest_folder + 'annot_files/annotations_vehicle/'
+
 
 def File_names_and_path(source_folder):
 

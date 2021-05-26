@@ -12,6 +12,7 @@ from waymo_open_dataset.utils import transform_utils
 
 '''Code methods taken from waymo tutorials, and modified accordingly'''
 
+
 def parse_range_image_and_camera_projection(frame):
     """Parse range images and camera projections given a frame.
     Args:
@@ -49,6 +50,7 @@ def parse_range_image_and_camera_projection(frame):
             range_images[laser.name].append(ri)
 
     return range_images, range_image_top_pose
+
 
 def convert_range_image_to_point_cloud(frame,
                                        range_images,
@@ -125,6 +127,7 @@ def convert_range_image_to_point_cloud(frame,
         reflectance.append(reflectance_tensor.numpy()[:,1])
 
     return points, reflectance
+
 
 def get_box_transformation_matrix(box):
     """Create a transformation matrix for a given label box pose."""
