@@ -62,7 +62,7 @@ def get_ped_bb_area(path_to_file):
 
 if __name__ == '__main__':
     #location of annotation files where the bounding boxes could be computed
-    source_folder = 'C:/Users/eyuel/Desktop/WinShare/PIEPredict/backup/annotations/'
+    source_folder = 'C:/Users/eyuel/Desktop/WinShare/PIEPredict/PIE/annotations/'
     
     path = File_names_and_path(source_folder)
 
