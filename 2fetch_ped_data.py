@@ -22,6 +22,11 @@ Read labels and images to return:
     pictures with pedestrians ids
 """
 
+def get_main_path():
+    #Path where the input and output folders are available
+    return '/home/eyuell/Desktop/ForD/WAYMO/output/'
+
+
 # Check on the availability of a font for pedestrian ID for frames
 import sys
 from os.path import join, isdir, exists
@@ -216,8 +221,8 @@ def generate_ped_data(cont, frame_num, frame_key, compiled_annt, compiled_attr, 
 
 
 def main(ped_id_need):
-    #Path where the input and output folders are available
-    main_path = '/home/eyuell/Desktop/ForD/WAYMO/output/'
+    
+    main_path = get_main_path()
 
     labels_dir = main_path + 'camera/labels/'
     img_dir = main_path + 'camera/images/'
