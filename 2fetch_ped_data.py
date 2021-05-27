@@ -23,6 +23,7 @@ Read labels and images to return:
 """
 
 # Check on the availability of a font for pedestrian ID for frames
+import sys
 from os.path import join, isdir, exists
 from os import listdir, makedirs
 from PIL import Image, ImageDraw, ImageFont
@@ -32,28 +33,8 @@ import time
 from datetime import timedelta
 import pathlib
 
-#Path where the input and output folders are available
-main_path = '/home/eyuell/Desktop/ForD/WAYMO/output/'
-
-dest_dir = main_path + 'annot_files/'
-labels_dir = main_path + 'camera/labels/'
-img_dir = main_path + 'camera/images/'
-img_des = main_path + 'compiled_imgs/'
-
-font_path = str(pathlib.Path().absolute()) + '/coolvetica.ttf'
-
-# capture existing folder names
-content_names = listdir(main_path)
-
-# for collecting the attributes
-attr_control = {}
-compiled_attr = []
-compiled_annt = {}
-compiled_obd = []
-
-
-def display_peds(peds, file_name, img_dir, img_des, vid_name):
-    global font_path
+def display_peds(peds, file_name, img_dir, img_des, vid_name, font_path):
+    
     file_num = '{0:05}.png'.format(vid_name)
 
     image1 = Image.open(img_dir + file_num)
@@ -146,7 +127,7 @@ def get_sorted_labels(label_names):
     """
 
 
-def get_vid_names():
+def get_vid_names(labels_dir):
     if isdir(labels_dir):
         fold_names = listdir(labels_dir)
         return list(filter(lambda x: str(x).__contains__('video_') , fold_names))
@@ -159,7 +140,7 @@ def refresh_path(n_path):
         makedirs(n_path)
 
 
-def handel_attribute(vid, vid_name, compiled_attr):
+def handel_attribute(vid, vid_name, compiled_attr, dest_dir):
     att_path = dest_dir + 'annotations_attributes/' + vid + '/'
     refresh_path(att_path)
 
@@ -172,7 +153,7 @@ def handel_attribute(vid, vid_name, compiled_attr):
     stream_out(attr_file, str_f)
 
 
-def handel_annot(compiled_annt, vid, vid_name, n_frames=198):
+def handel_annot(dest_dir, compiled_annt, vid, vid_name, n_frames=198):
     updated_annot = []
     for k, v in compiled_annt.items():
         updated_annot.append(v)
@@ -191,14 +172,15 @@ def handel_annot(compiled_annt, vid, vid_name, n_frames=198):
     stream_out(annt_file, str_f)
 
 
-def generate_ped_data(cont, frame_num, frame_key):
-    global compiled_attr, attr_control
+def generate_ped_data(cont, frame_num, frame_key, compiled_annt, compiled_attr, attr_control ): 
 
     #ped_id = str(cont[-1]) # Full length id
     ped_id = str(cont[-1].split('-')[-1]) # Short length id
     len(ped_id)
     ped_id = ped_id[:len(ped_id) -2 ]
     ped_short = ped_id[len(ped_id)-4:]
+
+    peds = {}
 
     w = float(cont[3])
     h = float(cont[4])
@@ -230,12 +212,33 @@ def generate_ped_data(cont, frame_num, frame_key):
         compiled_attr.append(generate_attr_line(ped_id))
         attr_control[ped_id] = True
 
-    return peds
+    return compiled_annt, compiled_attr, attr_control, peds
 
 
-if __name__=="__main__":
+def main(ped_id_need):
+    #Path where the input and output folders are available
+    #main_path = '/home/eyuell/Desktop/ForD/WAYMO/output/'
+    main_path = '/opt/pie/PIEPredict/WAYMO/output/'
+
+    labels_dir = main_path + 'camera/labels/'
+    img_dir = main_path + 'camera/images/'
+    dest_dir = main_path + 'annot_files/'
+    img_des = main_path + 'compiled_imgs/'
+
+    font_path = str(pathlib.Path().absolute()) + '/coolvetica.ttf'
+
+    # capture existing folder names
+    content_names = listdir(main_path)
+
+    # for collecting the attributes
+    attr_control = {}
+    compiled_attr = []
+    compiled_annt = {}
+    compiled_obd = []
+
     start = time.time()
-    vid_list = get_vid_names()
+
+    vid_list = get_vid_names(labels_dir)
     nn = 1
     for vid in vid_list:
         compiled_annt.clear()
@@ -274,7 +277,12 @@ if __name__=="__main__":
                             if (frame_num - frame_code)%5 == 0:
                                 frame_key = True
 
-                            peds = generate_ped_data(cont, frame_num, frame_key)
+                            compiled_annt, compiled_attr, attr_control, peds = generate_ped_data(cont, 
+                                                                                                frame_num, 
+                                                                                                frame_key, 
+                                                                                                compiled_annt, 
+                                                                                                compiled_attr, 
+                                                                                                attr_control)
 
                     f.close()
                 if peds: # Generate images only if there is pedestrian in it
@@ -285,12 +293,13 @@ if __name__=="__main__":
                     des_path = img_des + vid + '/'
                     refresh_path(des_path)
 
-                    display_peds(peds, file_name, img_path, des_path, frame_num)
+                    if ped_id_need:
+                        display_peds(peds, file_name, img_path, des_path, frame_num, font_path)
 
-            handel_attribute(vid, vid_name, compiled_attr)
+            handel_attribute(vid, vid_name, compiled_attr, dest_dir)
             compiled_attr = []
 
-            handel_annot(compiled_annt, vid, vid_name, n_frames)
+            handel_annot(dest_dir, compiled_annt, vid, vid_name, n_frames)
             compiled_annt.clear()
 
             print("Success on segment", nn - 1,'\n')
@@ -303,3 +312,14 @@ if __name__=="__main__":
     elapsed = end - start
     t_del = timedelta(seconds=elapsed)
     print('Done! Duration= {}\n'.format(t_del))
+
+
+if __name__=="__main__":
+
+    raw_input = sys.argv
+    ped_locator_need = False
+
+    if len(raw_input) > 1 and raw_input[1]:
+        ped_locator_need = True
+
+    main(ped_locator_need)
