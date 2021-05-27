@@ -51,7 +51,7 @@ The fourth kit can be used if there is an interest to calculate the area of pede
 <a name="samples"></a>
 ## Sample Annotations
 
-As a sample annotation, there are six video annotations. The sample annotations are grouped for training, validating and testing using three folders `wod1tr`, `wod2va`, and `wod3te` respectively for each of the annotation types. The images from waymo open dataset shall also be distributed in similar folder names. the sample annotations are [sample_annotation](sample_annotation) folder. The segment names associated with the annotations are listed in [segments_list](segments_list.txt) file.
+As a sample annotation, there are six video annotations. The sample annotations are grouped for training, validating and testing using three folders `wod1tr`, `wod2va`, and `wod3te` respectively for each of the annotation types. The images from waymo open dataset shall also be distributed in similar folder names. the sample annotations are [sample_annotation](https://github.com/eyuell/waymo-pie-annotation/tree/main/sample_annotations) folder. The segment names associated with the annotations are listed in [segments_list](segments_list.txt) file.
 
 <a name="author"></a>
 ## Corresponding author
