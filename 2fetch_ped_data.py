@@ -22,11 +22,6 @@ Read labels and images to return:
     pictures with pedestrians ids
 """
 
-def get_main_path():
-    #Path where the input and output folders are available
-    return '/home/eyuell/Desktop/ForD/WAYMO/output/'
-
-
 # Check on the availability of a font for pedestrian ID for frames
 import sys
 from os.path import join, isdir, exists
@@ -37,6 +32,12 @@ from util_annt import get_header
 import time
 from datetime import timedelta
 import pathlib
+
+
+def get_main_path():
+    #Path where the input and output folders are available
+    return '/home/eyuell/Desktop/ForD/WAYMO/output/'
+
 
 def display_peds(peds, file_name, img_dir, img_des, vid_name, font_path):
     
