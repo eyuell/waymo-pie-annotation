@@ -15,8 +15,7 @@ import util_image_label as WODKit
 if __name__=="__main__":
 
     #Path where the input and output folders are available
-    main_path = "/opt/pie/PIEPredict/WAYMO"
-    #main_path = "/home/eyuell/Desktop/ForD/WAYMO"
+    main_path = "/home/eyuell/Desktop/ForD/WAYMO"
 
     segments_dir = main_path + "/input/segment"
     output_dir = main_path + "/output"
