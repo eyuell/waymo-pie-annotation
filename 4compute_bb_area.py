@@ -16,10 +16,19 @@ limitations under the License.
 
 import os
 import xml.etree.ElementTree as ET
+import pathlib
 
+
+def get_main_path():
+    #location of annotation files where the bounding boxes could be computed
+    return 'C:/Users/eyuel/Desktop/WinShare/PIEPredict/PIE/annotations/'
+
+
+def get_destination_path():
+    return str(pathlib.Path().absolute()) + '/ped_bb_area.txt'
 
 # Method taken from https://github.com/Sreeni1204/Waymo_Kitti_converter
-def File_names_and_path(source_folder):
+def file_names_and_path(source_folder):
     
     dir_list = os.listdir(source_folder)
     files = list()
@@ -29,7 +38,7 @@ def File_names_and_path(source_folder):
         path = os.path.join(source_folder, directory)
 
         if os.path.isdir(path):
-            files = files + File_names_and_path(path)
+            files = files + file_names_and_path(path)
         else:
             files.append(path)
 
@@ -61,15 +70,15 @@ def get_ped_bb_area(path_to_file):
 
 
 if __name__ == '__main__':
-    #location of annotation files where the bounding boxes could be computed
-    source_folder = 'C:/Users/eyuel/Desktop/WinShare/PIEPredict/PIE/annotations/'
     
-    path = File_names_and_path(source_folder)
+    source_folder = get_main_path()
+    path = file_names_and_path(source_folder)
 
     pp = 0
     m = 0
     ped_instances = 0
     total_bb_area = 0.0
+    all_txts = ''
 
     for filename in path:
         pp += 1
@@ -80,12 +89,17 @@ if __name__ == '__main__':
         total_bb_area += bb_area
 
         # To show for each segment
-        print(pp, seg_id, ped_num, bb_area)
+        temp_txt = str(pp) + ' ' + str(seg_id) + ' ' + str(ped_num) + ' ' + str(bb_area) #+ '\n'
+        all_txts += temp_txt + '\n'
 
     # Summarized
     if pp:
-        print("=========================================")
-        print("# of videos:", pp)
-        print("Pedestrian instances:", ped_instances)
-        print("Total Bounding Box Area:", total_bb_area)
-        print("=========================================")
+        all_txts = all_txts + '=========================================\n' + '# of videos: ' + str(pp) 
+        all_txts = all_txts + '\nPedestrian instances: ' + str(ped_instances) + '\nTotal Bounding Box Area: ' 
+        all_txts = all_txts + str(total_bb_area) + '\n=========================================\n'
+        
+        print()
+        print(all_txts)
+
+        with open(get_destination_path(), 'wt') as fid:
+                fid.write(all_txts)
