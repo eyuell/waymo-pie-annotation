@@ -59,7 +59,7 @@ if __name__=="__main__":
     dest_folder = main_path + 'output/'
     annt_dir = dest_folder + 'annot_files/annotations_vehicle/'
 
-    path = File_names_and_path(source_folder)
+    path = file_names_and_path(source_folder)
 
     print('Extraction process started:')
     start = time.time()
