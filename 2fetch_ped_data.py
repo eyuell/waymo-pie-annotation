@@ -217,8 +217,7 @@ def generate_ped_data(cont, frame_num, frame_key, compiled_annt, compiled_attr, 
 
 def main(ped_id_need):
     #Path where the input and output folders are available
-    #main_path = '/home/eyuell/Desktop/ForD/WAYMO/output/'
-    main_path = '/opt/pie/PIEPredict/WAYMO/output/'
+    main_path = '/home/eyuell/Desktop/ForD/WAYMO/output/'
 
     labels_dir = main_path + 'camera/labels/'
     img_dir = main_path + 'camera/images/'
