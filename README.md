@@ -22,7 +22,7 @@ The executable kits are designated by files which start with number. The numbers
 <a name="exe_step1"></a>
 ## Step 1: Extract Labels and Images
 
-In the `1extract_image_label.py` file, the `main_path` can be supplied which could hold the `input/segment` and `output` folders of the kit. Alternatively, the `segments_dir` and `output_dir` paths can be supplied. 
+From the [data_extractor](https://github.com/eyuell/waymo-pie-annotation/tree/main/data_extractor) folder, the `1extract_image_label.py` file needs an input of a `main_path` which could hold the `input/segment` and `output` folders of the kit. Alternatively, the `segments_dir` and `output_dir` paths can be supplied. 
 
 Then the command `python 1extract_image_label.py` can be executed and the images and labels for each segments shall be populated in the `camera/images` and `camera/labels` folders respectively.
 
@@ -46,12 +46,12 @@ From the scope of predicting pedestrian trajectory using PIE model, the annotati
 <a name="ped_area"></a>
 ## Additional kit
 
-The fourth kit can be used if there is an interest to calculate the area of pedestrian's bounding boxes for each segment. It will display the area for each segment and the summed total. This kit need the location of the `annotations` folder as an input.
+The last kit in the [ped_bounding_box_area](https://github.com/eyuell/waymo-pie-annotation/tree/main/ped_bounding_box_area) folder can be used if there is an interest to calculate the area of pedestrian's bounding boxes for each segment. It will display the area for each segment and the summed total. This kit need the location of the `annotations` folder as an input. for execution, use `python compute_bb_area.py` command.
 
 <a name="samples"></a>
 ## Sample Annotations
 
-As a sample annotation, there are six video annotations. The sample annotations are grouped for training, validating and testing using three folders `wod1tr`, `wod2va`, and `wod3te` respectively for each of the annotation types. The images from waymo open dataset shall also be distributed in similar folder names. the sample annotations are [sample_annotation](https://github.com/eyuell/waymo-pie-annotation/tree/main/sample_annotations) folder. The segment names associated with the annotations are listed in [segments_list](segments_list.txt) file.
+As a sample annotation, there are six video annotations. The sample annotations are grouped for training, validating and testing using three folders `wod1tr`, `wod2va`, and `wod3te` respectively for each of the annotation types. The images from waymo open dataset shall also be distributed in similar folder names. The sample annotations are [sample_annotation](https://github.com/eyuell/waymo-pie-annotation/tree/main/sample_annotations) folder. The segment names associated with the annotations are listed in [segments_list](segments_list.txt) file.
 
 <a name="author"></a>
 ## Corresponding author
